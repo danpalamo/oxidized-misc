@@ -1,0 +1,89 @@
+---
+username: defaultusername
+password: defaultpassword
+model: junos
+resolve_dns: true
+interval: 21600
+use_syslog: false
+debug: false
+threads: 30
+use_max_threads: false
+timeout: 20
+retries: 3
+prompt: !ruby/regexp /^([\w.@-]+[#>]\s?)$/
+#rest: 127.0.0.1:8888
+rest: 0.0.0.0:8888
+next_adds_job: false
+vars: {}
+vars:
+  enable: defaultenablepass
+#groups: {}
+#honestly seems like "groups" doesn't work for me while "models" does
+groups:
+  mikrotik:
+    username: mikrotikgroupuser
+    password: mikrotikgroupass
+#  edgeswitch:
+#    username: edgeswitchuser
+#    password: edgeswitchpass
+group_map: {}
+#models: {}
+models:
+  routeros:
+    username: mikrotikgroupuser
+    password: mikrotikgrouppass
+  edgeswitch:
+    username: edgeswitchuser
+    password: edgeswitchpass
+  airfiber:
+    username: airfiberuser
+    password: airfiberpass
+pid: "/home/oxidized/.config/oxidized/pid"
+crash:
+  directory: "/home/oxidized/.config/oxidized/crashes"
+  hostnames: false
+stats:
+  history_size: 10
+input:
+#  default: ssh, telnet
+  default: ssh
+  debug: false
+#  debug: true
+  ssh:
+    secure: false
+  ftp:
+    passive: true
+  utf8_encoded: true
+#output:
+#  default: file
+#  file:
+#    directory: "/home/oxidized/.config/oxidized/configs"
+output:
+  default: git
+  git:
+    user: Oxidized
+    email: oxidized@local
+    repo: "/home/oxidized/.config/oxidized/git.d"
+source:
+  default: http
+  debug: false
+  http:
+    url: https://librenms.whateverdomain/api/v0/oxidized
+    scheme: https
+    secure: false
+    map:
+      name: hostname
+      model: os
+      group: group
+      ip: ip
+    headers:
+      X-Auth-Token: 'tokenfromlibrenms-I-think'
+#model_maps seem to work properly for me
+model_map:
+  juniper: junos
+  cisco: ios
+  EdgeSwitch: edgeswitch
+  Airfiber: airfiber
+#not so much with group_map
+#group_map:
+#  EdgeSwitch: edgeswitch
